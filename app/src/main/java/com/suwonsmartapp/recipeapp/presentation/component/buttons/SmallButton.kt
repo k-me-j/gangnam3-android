@@ -18,7 +18,7 @@ import com.suwonsmartapp.recipeapp.ui.AppTextStyles
 
 @Preview(showBackground = true)
 @Composable
-fun SmallButtonPreview(modifier: Modifier = Modifier) {
+fun SmallButtonPreview() {
     SmallButton("Button") { }
 }
 
