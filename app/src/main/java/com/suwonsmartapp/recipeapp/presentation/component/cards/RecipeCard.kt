@@ -1,6 +1,5 @@
 package com.suwonsmartapp.recipeapp.presentation.component.cards
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.suwonsmartapp.recipeapp.R
 import com.suwonsmartapp.recipeapp.domain.model.recipe.Recipe
 import com.suwonsmartapp.recipeapp.domain.model.recipe.RecipeCategory
@@ -52,12 +52,14 @@ fun RecipeCard(
             .clip(shape = RoundedCornerShape(10.dp))
     ) {
         // 배경 이미지
-        Image(
-            painter = painterResource(recipe.imageUrl),
+        AsyncImage(
+            model = recipe.imageUrl,
             contentDescription = recipe.title,
+            contentScale = ContentScale.Crop,
+            placeholder = painterResource(R.drawable.ic_image_placeholder),
+            error = painterResource(R.drawable.ic_image_placeholder),
             modifier = Modifier
                 .fillMaxSize(),
-            contentScale = ContentScale.Crop,
         )
         
         // 이미지 위 선형 그라데이션 오버레이
@@ -145,9 +147,8 @@ private fun RecipeCardPreview() {
     
     val recipe = Recipe(
         id = "001",
-//        title = "Traditional spare ribs baked",
         title = "Traditional spare ribs baked Traditional spare ribs baked Traditional spare ribs baked Traditional spare ribs baked ",
-        imageUrl = R.drawable.test_img_food01,
+        imageUrl = "android.resource://com.suwonsmartapp.recipeapp/${R.drawable.test_img_food01}",
 //        imageUrl = R.drawable.test_img_food02,
         videoUrl = null,
         chef = chef,
