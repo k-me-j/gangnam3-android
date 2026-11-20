@@ -29,7 +29,7 @@ fun SavedRecipesScreen(
         factory = SavedRecipesViewModel.Factory,
     ),
 ) {
-    val recipes by viewModel.recipes.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsStateWithLifecycle()
     
     Column(
         modifier = modifier
@@ -61,7 +61,7 @@ fun SavedRecipesScreen(
             contentPadding = PaddingValues(bottom = 20.dp), // 내부 콘텐츠 가장 아래에 스크롤 가능한 여백 주기
         ) {
             items(
-                items = recipes,
+                items = state.recipes,
                 key = { it.id },
             ) { recipe ->
                 RecipeCard(
