@@ -82,13 +82,17 @@ fun SavedRecipesScreen(
             }
             
             else -> {
+//                val bookmarkedRecipes = state.recipes.filter { it.id in state.bookmarkedIds }  // 북마크 해제하자마자 지우기
+                val bookmarkedRecipes = state.recipes  // 북마크 해제해도 우선 화면에 놔두기
+                
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .weight(1f)
+                        .weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(20.dp),
                 ) {
                     items(
-                        items = state.recipes,
+                        items = bookmarkedRecipes,
                         key = { it.id },
                     ) { recipe ->
                         RecipeCard(
