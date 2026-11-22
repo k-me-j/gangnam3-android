@@ -27,18 +27,18 @@ class SavedRecipesViewModel(
         viewModelScope.launch {
             _state.update { currentState ->
                 currentState.copy(  // copy로 동시성 문제 예방
-                    isLoading = true,
+                    isLoading = true,  // 로딩 중으로 시작
                 )
             }
             
             try {
-                // 데이터를 먼저 비동기로 가져온 뒤
+                // 1. 데이터를 먼저 비동기로 가져온 뒤
                 val loadedRecipes = repository.getRecipes()
                 
-                // 상태 업데이트
+                // 2. 상태 업데이트
                 // : 상태 업데이트하는 것 안에서 비동기로 가져오는 것은 지양(update 내부에서 while 돈다)
                 _state.update { currentState ->
-                    currentState.copy(
+                    currentState.copy(  // copy로 동시성 문제 예방
                         recipes = loadedRecipes,
                         bookmarkedIds = loadedRecipes.map { it.id }.toSet(),
                         isLoading = false,
