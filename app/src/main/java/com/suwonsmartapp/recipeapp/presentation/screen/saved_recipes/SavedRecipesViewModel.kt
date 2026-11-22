@@ -40,6 +40,7 @@ class SavedRecipesViewModel(
                 _state.update { currentState ->
                     currentState.copy(
                         recipes = loadedRecipes,
+                        bookmarkedIds = loadedRecipes.map { it.id }.toSet(),
                         isLoading = false,
                     )
                 }
@@ -51,6 +52,22 @@ class SavedRecipesViewModel(
                     )
                 }
             }
+        }
+    }
+    
+    fun toggleBookmark(recipeId: String) {
+        _state.update { currentState ->
+            val currentIds = currentState.bookmarkedIds
+            
+            currentState.copy(  // 동시성 문제 예방
+                bookmarkedIds = if (recipeId in currentIds) {
+                    currentIds - recipeId
+                } else {
+                    currentIds + recipeId
+                }
+            )
+            // set에서 -, +를 쓰면 기존 set 그대로 두고 새 set을 만듦. 그래서 StateFlow가 값이 바뀐걸 감지하고 화면을 다시 그림.
+            // MutableSet의 add, remove로 기존 set을 직접 변경하면 같은 객체라서 화면이 갱신되지 않을 수 있다!
         }
     }
     
