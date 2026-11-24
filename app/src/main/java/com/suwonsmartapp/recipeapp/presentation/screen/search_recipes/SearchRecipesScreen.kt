@@ -13,10 +13,12 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -24,6 +26,9 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.suwonsmartapp.recipeapp.domain.model.recipe.Recipe
 import com.suwonsmartapp.recipeapp.presentation.component.buttons.TuneButton
 import com.suwonsmartapp.recipeapp.presentation.component.inputFields.SearchInputField
 import com.suwonsmartapp.recipeapp.ui.AppColors
@@ -31,10 +36,21 @@ import com.suwonsmartapp.recipeapp.ui.AppTextStyles
 
 @Composable
 fun SearchRecipesScreen(  // Stateful 컴포저블 : ViewModel 연결 담당
-    viewModel: SearchRecipesViewModel,
+    onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
+    viewModel: SearchRecipesViewModel = viewModel(
+        factory = SearchRecipesViewModel.Factory,
+    ),
 ) {
-
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    
+    SearchRecipesContent(
+        state = state,
+        onBackClick = onBackClick,
+        onQueryChange = viewModel::onQueryChange,
+        onFilterClick = {},
+        modifier = modifier,
+    )
 }
 
 @Composable
@@ -76,6 +92,40 @@ fun SearchRecipesContent(  // Stateless 컴포저블 : UI만 그림, 프리뷰 �
             onQueryChange = onQueryChange,
             onFilterClick = onFilterClick,
         )
+        
+        Spacer(Modifier.size(20.dp))
+        
+        // 결과
+        when {
+            // 로딩 중
+            state.isLoading -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+            
+            // 검색어 없음
+            state.query.isBlank() -> {
+                RecipeResultSection(
+                    title = "Recent Search",
+                    recipes = state.recentRecipes,
+                    modifier = Modifier.weight(1f),
+                )
+            }
+            
+            // 검색어 있음
+            else -> {
+                RecipeResultSection(
+                    title = "Search Result",
+                    recipes = state.searchResults,
+                    modifier = Modifier.weight(1f),
+                )
+            }
+        }
     }
 }
 
@@ -137,6 +187,22 @@ private fun SearchBarSection(
         // 필터 버튼
         TuneButton(
             onClick = onFilterClick,
+        )
+    }
+}
+
+@Composable
+private fun RecipeResultSection(
+    title: String,
+    recipes: List<Recipe>,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+        Text(
+            text = title,
         )
     }
 }
