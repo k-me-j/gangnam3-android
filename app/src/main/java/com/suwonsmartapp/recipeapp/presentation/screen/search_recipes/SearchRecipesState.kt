@@ -4,7 +4,10 @@ import com.suwonsmartapp.recipeapp.domain.model.recipe.Recipe
 
 data class SearchRecipesState(
     val query: String = "",
+    val recentRecipeIds: List<String> = emptyList(),
     val recentRecipes: List<Recipe> = emptyList(),
     val searchResults: List<Recipe> = emptyList(),
+    
     val isLoading: Boolean = false,
+    val errorMessage: String? = null,
 )
