@@ -25,9 +25,18 @@ import com.suwonsmartapp.recipeapp.ui.AppColors
 import com.suwonsmartapp.recipeapp.ui.AppTextStyles
 
 @Composable
-fun SearchRecipesScreen(
+fun SearchRecipesScreen(  // Stateful 컴포저블 : ViewModel 연결 담당
+    viewModel: SearchRecipesViewModel,
     modifier: Modifier = Modifier,
-    viewModel: SearchRecipesViewModel
+) {
+
+}
+
+@Composable
+fun SearchRecipesContent(  // Stateless 컴포저블 : UI만 그림, 프리뷰 가능
+    state: SearchRecipesState,
+    onBackClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
     
@@ -47,6 +56,12 @@ fun SearchRecipesScreen(
             }
     ) {
         // Header
+        SearchRecipesHeader(
+            title = "Search recipes",
+            onBackClick = onBackClick,
+        )
+        
+        // 검색창 및 필터
         
     }
 }
@@ -90,6 +105,8 @@ private fun SearchRecipesHeader(
 @Preview(showBackground = true)
 @Composable
 private fun SearchRecipesScreenPreview() {
+    SearchRecipesContent()
+    
     SearchRecipesHeader(
         title = "hello",
         onBackClick = {}
