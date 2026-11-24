@@ -46,7 +46,6 @@ fun SearchInputField(
         ),
         cursorBrush = SolidColor(AppColors.gray1),
         modifier = modifier
-            .fillMaxWidth()
             .onFocusChanged { focusState ->
                 isFocused = focusState.isFocused
         },
