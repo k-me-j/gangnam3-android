@@ -6,6 +6,8 @@ object AppColors {
     // Neutral Color
     val black1 = Color(0xFF000000)
     val black2 = Color(0xFF121212)
+    val black3 = Color(0xFF181818)
+    val black4 = Color(0xFF292D32)
     val gray1 = Color(0xFF484848)
     val gray2 = Color(0xFF797979)
     val gray3 = Color(0xFFA9A9A9)
