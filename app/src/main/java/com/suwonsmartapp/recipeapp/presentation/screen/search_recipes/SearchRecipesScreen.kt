@@ -1,8 +1,11 @@
 package com.suwonsmartapp.recipeapp.presentation.screen.search_recipes
 
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,6 +24,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.suwonsmartapp.recipeapp.presentation.component.buttons.TuneButton
+import com.suwonsmartapp.recipeapp.presentation.component.inputFields.SearchInputField
 import com.suwonsmartapp.recipeapp.ui.AppColors
 import com.suwonsmartapp.recipeapp.ui.AppTextStyles
 
@@ -36,6 +41,8 @@ fun SearchRecipesScreen(  // Stateful 컴포저블 : ViewModel 연결 담당
 fun SearchRecipesContent(  // Stateless 컴포저블 : UI만 그림, 프리뷰 가능
     state: SearchRecipesState,
     onBackClick: () -> Unit,
+    onQueryChange: (String) -> Unit,
+    onFilterClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
@@ -61,8 +68,14 @@ fun SearchRecipesContent(  // Stateless 컴포저블 : UI만 그림, 프리뷰 �
             onBackClick = onBackClick,
         )
         
-        // 검색창 및 필터
+        Spacer(Modifier.size(17.dp))
         
+        // 검색창 및 필터
+        SearchBarSection(
+            query = state.query,
+            onQueryChange = onQueryChange,
+            onFilterClick = onFilterClick,
+        )
     }
 }
 
@@ -90,7 +103,7 @@ private fun SearchRecipesHeader(
             )
         }
         
-        // Header
+        // Title
         Text(
             text = title,
             color = AppColors.black3,
@@ -101,14 +114,47 @@ private fun SearchRecipesHeader(
     }
 }
 
+@Composable
+private fun SearchBarSection(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onFilterClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(20.dp),
+    ) {
+        // 검색창
+        SearchInputField(
+            text = query,
+            onValueChange = onQueryChange,
+            placeholder = "Search recipe",
+            modifier = Modifier.weight(1f)
+        )
+        
+        // 필터 버튼
+        TuneButton(
+            onClick = onFilterClick,
+        )
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable
 private fun SearchRecipesScreenPreview() {
-    SearchRecipesContent()
+//    SearchRecipesHeader(
+//        title = "hello",
+//        onBackClick = {}
+//    )
+    val state = SearchRecipesState()
     
-    SearchRecipesHeader(
-        title = "hello",
-        onBackClick = {}
+    SearchRecipesContent(
+        state = state,
+        onBackClick = {},
+        onQueryChange = {},
+        onFilterClick = {},
     )
 }
