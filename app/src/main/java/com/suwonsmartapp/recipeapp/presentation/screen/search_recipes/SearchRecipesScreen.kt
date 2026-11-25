@@ -1,6 +1,7 @@
 package com.suwonsmartapp.recipeapp.presentation.screen.search_recipes
 
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,11 +16,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.suwonsmartapp.recipeapp.R
 import com.suwonsmartapp.recipeapp.domain.model.recipe.Recipe
+import com.suwonsmartapp.recipeapp.domain.model.recipe.RecipeCategory
+import com.suwonsmartapp.recipeapp.domain.model.user.UserSummary
 import com.suwonsmartapp.recipeapp.presentation.component.bars.BackTopBar
 import com.suwonsmartapp.recipeapp.presentation.component.bars.SearchBar
+import com.suwonsmartapp.recipeapp.presentation.component.cards.RecipeGridList
+import com.suwonsmartapp.recipeapp.ui.AppColors
+import com.suwonsmartapp.recipeapp.ui.AppTextStyles
 
 @Composable
 fun SearchRecipesScreen(  // Stateless 컴포저블 : UI만 그림, 프리뷰 가능
@@ -95,11 +103,18 @@ private fun RecipeResultSection(
 ) {
     Column(
         modifier = modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         Text(
             text = title,
+            color = AppColors.black1,
+            style = AppTextStyles.normalTextBold.copy(
+                fontWeight = FontWeight.SemiBold,
+            )
         )
+        
+        RecipeGridList(recipes)
     }
 }
 
@@ -107,11 +122,35 @@ private fun RecipeResultSection(
 @Preview(showBackground = true)
 @Composable
 private fun SearchRecipesScreenPreview() {
-//    SearchRecipesHeader(
-//        title = "hello",
-//        onBackClick = {}
-//    )
-    val state = SearchRecipesState()
+    val chef = UserSummary(
+        id = "A001",
+        name = "John",
+        profileImageUrl = null,
+        location = null
+    )
+    
+    val recipe = Recipe(
+        id = "001",
+        title = "Traditional spare ribs baked Traditional spare ribs baked Traditional spare ribs baked Traditional spare ribs baked ",
+        imageUrl = "android.resource://com.suwonsmartapp.recipeapp/${R.drawable.test_img_food01}",
+        videoUrl = null,
+        chef = chef,
+        category = RecipeCategory.UNKNOWN,
+        reviewCount = 10,
+        cookingTimeMinutes = 20,
+        createAt = 261113L,
+        rating = 4.0
+    )
+    
+    val recipes = List(10) { index ->
+        recipe.copy(
+            id = index.toString().padStart(3, '0')
+        )
+    }
+    
+    val state = SearchRecipesState(
+        recentRecipes = recipes
+    )
     
     SearchRecipesScreen(
         state = state,
