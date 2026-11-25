@@ -11,6 +11,9 @@ data class SearchRecipesState(
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
 ) {
+    val isSearching: Boolean
+        get() = query.isNotBlank()
+    
     val resultTitle: String
         get() = if (query.isBlank()) "Recent Search" else "Search Result"
     
