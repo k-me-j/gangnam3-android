@@ -18,7 +18,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -26,8 +25,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.suwonsmartapp.recipeapp.domain.model.recipe.Recipe
 import com.suwonsmartapp.recipeapp.presentation.component.buttons.TuneButton
 import com.suwonsmartapp.recipeapp.presentation.component.inputFields.SearchInputField
@@ -35,26 +32,7 @@ import com.suwonsmartapp.recipeapp.ui.AppColors
 import com.suwonsmartapp.recipeapp.ui.AppTextStyles
 
 @Composable
-fun SearchRecipesScreen(  // Stateful 컴포저블 : ViewModel 연결 담당
-    onBackClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: SearchRecipesViewModel = viewModel(
-        factory = SearchRecipesViewModel.Factory,
-    ),
-) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    
-    SearchRecipesContent(
-        state = state,
-        onBackClick = onBackClick,
-        onQueryChange = viewModel::onQueryChange,
-        onFilterClick = {},
-        modifier = modifier,
-    )
-}
-
-@Composable
-fun SearchRecipesContent(  // Stateless 컴포저블 : UI만 그림, 프리뷰 가능
+fun SearchRecipesScreen(  // Stateless 컴포저블 : UI만 그림, 프리뷰 가능
     state: SearchRecipesState,
     onBackClick: () -> Unit,
     onQueryChange: (String) -> Unit,
@@ -207,7 +185,7 @@ private fun SearchRecipesScreenPreview() {
 //    )
     val state = SearchRecipesState()
     
-    SearchRecipesContent(
+    SearchRecipesScreen(
         state = state,
         onBackClick = {},
         onQueryChange = {},
