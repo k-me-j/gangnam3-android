@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">RecipeApp</string>
+
+    <!--  FilterTime  -->
+    <string name="filter_time_all">ALL</string>
+    <string name="filter_time_newest">Newest</string>
+    <string name="filter_time_oldest">Oldest</string>
+    <string name="filter_time_popularity">Popularity</string>
+
+    <!--  FilterRate  -->
+    <string name="filter_rate_score">%d</string>
+
+    <!--  FilterCategory  -->
+    <string name="filter_category_all">All</string>
+    <string name="filter_category_cereal">Cereal</string>
+    <string name="filter_category_vegetables">Vegetables</string>
+    <string name="filter_category_dinner">Dinner</string>
+    <string name="filter_category_chinese">Chinese</string>
+    <string name="filter_category_local_dish">Local Dish</string>
+    <string name="filter_category_fruit">Fruit</string>
+    <string name="filter_category_breakfast">Breakfast</string>
+    <string name="filter_category_spanish">Spanish</string>
+    <string name="filter_category_lunch">Lunch</string>
+
 </resources>
