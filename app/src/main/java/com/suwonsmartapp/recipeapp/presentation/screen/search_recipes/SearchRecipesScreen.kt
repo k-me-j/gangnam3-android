@@ -9,24 +9,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.suwonsmartapp.recipeapp.domain.model.recipe.Recipe
+import com.suwonsmartapp.recipeapp.presentation.component.bars.BackTopBar
 import com.suwonsmartapp.recipeapp.presentation.component.bars.SearchBar
-import com.suwonsmartapp.recipeapp.ui.AppColors
-import com.suwonsmartapp.recipeapp.ui.AppTextStyles
 
 @Composable
 fun SearchRecipesScreen(  // Stateless 컴포저블 : UI만 그림, 프리뷰 가능
@@ -54,7 +47,7 @@ fun SearchRecipesScreen(  // Stateless 컴포저블 : UI만 그림, 프리뷰 �
             }
     ) {
         // Header
-        SearchRecipesHeader(
+        BackTopBar(
             title = "Search recipes",
             onBackClick = onBackClick,
         )
@@ -91,41 +84,6 @@ fun SearchRecipesScreen(  // Stateless 컴포저블 : UI만 그림, 프리뷰 �
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun SearchRecipesHeader(
-    title: String,
-    onBackClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Box(  // 아이콘과 텍스트를 독립적으로 정렬하기 위해 row 대신 box 사용
-        modifier = modifier.fillMaxWidth(),
-        contentAlignment = Alignment.Center,
-    ) {
-        // 뒤로가기
-        IconButton(
-            onClick = onBackClick,
-            modifier = Modifier
-                .align(Alignment.CenterStart)
-                .size(20.dp)
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,  // 언어 읽기 방향에 따라 back 방향 자동 적용
-                contentDescription = "Back",
-                tint = AppColors.black4,
-            )
-        }
-        
-        // Title
-        Text(
-            text = title,
-            color = AppColors.black3,
-            style = AppTextStyles.mediumTextBold.copy(
-                fontWeight = FontWeight.SemiBold,
-            )
-        )
     }
 }
 
