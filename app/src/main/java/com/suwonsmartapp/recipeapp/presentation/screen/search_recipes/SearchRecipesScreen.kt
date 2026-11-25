@@ -4,6 +4,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
@@ -88,6 +90,7 @@ fun SearchRecipesScreen(  // Stateless 컴포저블 : UI만 그림, 프리뷰 �
                 RecipeResultSection(
                     title = state.resultTitle,
                     recipes = state.displayedRecipes,
+                    isSearching = state.isSearching,
                     modifier = Modifier.weight(1f),
                 )
             }
@@ -99,12 +102,35 @@ fun SearchRecipesScreen(  // Stateless 컴포저블 : UI만 그림, 프리뷰 �
 private fun RecipeResultSection(
     title: String,
     recipes: List<Recipe>,
+    isSearching: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(20.dp),
+    ) {
+        SearchResultHeader(
+            title = title,
+            isSearching = isSearching,
+            resultCount = recipes.size,
+        )
+        
+        RecipeGridList(recipes)
+    }
+}
+
+@Composable
+private fun SearchResultHeader(
+    title: String,
+    isSearching: Boolean,
+    resultCount: Int,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
             text = title,
@@ -114,7 +140,13 @@ private fun RecipeResultSection(
             )
         )
         
-        RecipeGridList(recipes)
+        if (isSearching) {
+            Text(
+                text = "$resultCount results",
+                color = AppColors.gray3,
+                style = AppTextStyles.smallerTextRegular,
+            )
+        }
     }
 }
 
@@ -152,8 +184,14 @@ private fun SearchRecipesScreenPreview() {
         recentRecipes = recipes
     )
     
+    val state2 = SearchRecipesState(
+        query = "ribs",
+        searchResults = recipes
+    )
+    
     SearchRecipesScreen(
-        state = state,
+//        state = state,  // 검색어 미입력
+        state = state2,  // 검색어 입려
         onBackClick = {},
         onQueryChange = {},
         onFilterClick = {},
