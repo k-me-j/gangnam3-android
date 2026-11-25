@@ -108,20 +108,10 @@ fun SearchRecipesContent(  // Stateless 컴포저블 : UI만 그림, 프리뷰 �
                 }
             }
             
-            // 검색어 없음
-            state.query.isBlank() -> {
-                RecipeResultSection(
-                    title = "Recent Search",
-                    recipes = state.recentRecipes,
-                    modifier = Modifier.weight(1f),
-                )
-            }
-            
-            // 검색어 있음
             else -> {
                 RecipeResultSection(
-                    title = "Search Result",
-                    recipes = state.searchResults,
+                    title = state.resultTitle,
+                    recipes = state.displayedRecipes,
                     modifier = Modifier.weight(1f),
                 )
             }
