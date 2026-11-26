@@ -27,7 +27,7 @@ import com.suwonsmartapp.recipeapp.ui.AppColors
 import com.suwonsmartapp.recipeapp.ui.AppTextStyles
 
 @Composable
-fun CustomTabs(
+fun RecipeCategorySelector(
     labels: List<String>,
     selectedIndex: Int,
     onValueChange: (Int) -> Unit,
@@ -76,11 +76,11 @@ fun CustomTabs(
 
 @Preview(showBackground = true)
 @Composable
-private fun CustomTabsPreview() {
+private fun RecipeCategorySelectorPreview() {
     var selectedIndex by remember { mutableIntStateOf(0) }
     val categories = FilterCategory.entries.map { stringResource(it.toStringResId()) }
     
-    CustomTabs(
+    RecipeCategorySelector(
         labels = categories,
         selectedIndex = selectedIndex,
         onValueChange = { newIndex ->
