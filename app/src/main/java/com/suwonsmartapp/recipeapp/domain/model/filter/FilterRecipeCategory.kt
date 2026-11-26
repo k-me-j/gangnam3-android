@@ -1,6 +1,6 @@
 package com.suwonsmartapp.recipeapp.domain.model.filter
 
-enum class FilterCategory {
+enum class FilterRecipeCategory {
     ALL,
     CEREAL,
     VEGETABLES,

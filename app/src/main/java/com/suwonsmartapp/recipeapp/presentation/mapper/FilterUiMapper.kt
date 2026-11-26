@@ -2,7 +2,7 @@ package com.suwonsmartapp.recipeapp.presentation.mapper
 
 import androidx.annotation.StringRes
 import com.suwonsmartapp.recipeapp.R
-import com.suwonsmartapp.recipeapp.domain.model.filter.FilterCategory
+import com.suwonsmartapp.recipeapp.domain.model.filter.FilterRecipeCategory
 import com.suwonsmartapp.recipeapp.domain.model.filter.FilterTime
 
 @StringRes  // Int가 R.string.*임을 나타냄
@@ -14,15 +14,15 @@ fun FilterTime.toStringResId(): Int = when (this) {
 }
 
 @StringRes
-fun FilterCategory.toStringResId(): Int = when (this) {
-    FilterCategory.ALL -> R.string.filter_category_all
-    FilterCategory.CEREAL -> R.string.filter_category_cereal
-    FilterCategory.VEGETABLES -> R.string.filter_category_vegetables
-    FilterCategory.DINNER -> R.string.filter_category_dinner
-    FilterCategory.CHINESE -> R.string.filter_category_chinese
-    FilterCategory.LOCAL_DISH -> R.string.filter_category_local_dish
-    FilterCategory.FRUIT -> R.string.filter_category_fruit
-    FilterCategory.BREAKFAST -> R.string.filter_category_breakfast
-    FilterCategory.SPANISH -> R.string.filter_category_spanish
-    FilterCategory.LUNCH -> R.string.filter_category_lunch
+fun FilterRecipeCategory.toStringResId(): Int = when (this) {
+    FilterRecipeCategory.ALL -> R.string.filter_category_all
+    FilterRecipeCategory.CEREAL -> R.string.filter_category_cereal
+    FilterRecipeCategory.VEGETABLES -> R.string.filter_category_vegetables
+    FilterRecipeCategory.DINNER -> R.string.filter_category_dinner
+    FilterRecipeCategory.CHINESE -> R.string.filter_category_chinese
+    FilterRecipeCategory.LOCAL_DISH -> R.string.filter_category_local_dish
+    FilterRecipeCategory.FRUIT -> R.string.filter_category_fruit
+    FilterRecipeCategory.BREAKFAST -> R.string.filter_category_breakfast
+    FilterRecipeCategory.SPANISH -> R.string.filter_category_spanish
+    FilterRecipeCategory.LUNCH -> R.string.filter_category_lunch
 }

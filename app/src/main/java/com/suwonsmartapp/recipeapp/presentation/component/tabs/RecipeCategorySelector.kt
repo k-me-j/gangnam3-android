@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.suwonsmartapp.recipeapp.domain.model.filter.FilterCategory
+import com.suwonsmartapp.recipeapp.domain.model.filter.FilterRecipeCategory
 import com.suwonsmartapp.recipeapp.presentation.mapper.toStringResId
 import com.suwonsmartapp.recipeapp.ui.AppColors
 import com.suwonsmartapp.recipeapp.ui.AppTextStyles
@@ -78,7 +78,7 @@ fun RecipeCategorySelector(
 @Composable
 private fun RecipeCategorySelectorPreview() {
     var selectedIndex by remember { mutableIntStateOf(0) }
-    val categories = FilterCategory.entries.map { stringResource(it.toStringResId()) }
+    val categories = FilterRecipeCategory.entries.map { stringResource(it.toStringResId()) }
     
     RecipeCategorySelector(
         labels = categories,
