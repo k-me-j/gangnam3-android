@@ -6,12 +6,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.suwonsmartapp.recipeapp.domain.model.filter.FilterRecipeCategory
 import com.suwonsmartapp.recipeapp.presentation.component.bars.SearchBar
 import com.suwonsmartapp.recipeapp.presentation.component.tabs.RecipeCategorySelector
 import com.suwonsmartapp.recipeapp.presentation.mapper.toStringResId
@@ -20,13 +25,17 @@ import com.suwonsmartapp.recipeapp.presentation.mapper.toStringResId
 fun HomeScreenRoot(
     modifier: Modifier = Modifier
 ) {
-    
+//    HomeScreen(
+//        state = TODO(),
+//        onCategoryClick = TODO(),  viewModel::onCategoryClick,
+//        modifier = TODO()
+//    )
 }
 
 @Composable
 fun HomeScreen(
     state: HomeState,
-    onCategoryClick: (Int) -> Unit,
+    onCategoryClick: (FilterRecipeCategory) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val focusManager = LocalFocusManager.current
@@ -65,7 +74,10 @@ fun HomeScreen(
         RecipeCategorySelector(
             labels = categoryLabels,
             selectedIndex = state.categories.indexOf(state.selectedCategory),
-            onValueChange = onCategoryClick,
+            onValueChange = { index ->
+                onCategoryClick(state.categories[index])
+                // index로 접근하면 목록 순서도 신경써야 하기 떄문에 카테고리를 넘기는 게 맞다
+            },
         )
     }
 }
@@ -74,5 +86,14 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 private fun HomeScreenPreview() {
+    var state by remember { mutableStateOf(HomeState()) }
     
+    HomeScreen(
+        state = state,
+        onCategoryClick = { category ->
+            state = state.copy(
+                selectedCategory = category
+            )
+        },
+    )
 }
