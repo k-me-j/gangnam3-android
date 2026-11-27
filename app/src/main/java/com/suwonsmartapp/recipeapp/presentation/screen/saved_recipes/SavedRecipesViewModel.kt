@@ -24,7 +24,7 @@ class SavedRecipesViewModel(
     }
     
     private fun loadSavedRecipes() {
-        viewModelScope.launch {
+        viewModelScope.launch {  // getRecipes()가 suspend라서 코루틴 열어주기
             _state.update { currentState ->
                 currentState.copy(  // copy로 동시성 문제 예방
                     isLoading = true,  // 로딩 중으로 시작
