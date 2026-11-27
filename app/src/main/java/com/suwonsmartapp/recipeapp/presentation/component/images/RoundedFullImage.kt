@@ -31,6 +31,7 @@ fun RoundedFullImage(
         error = defaultPainter,
         fallback = defaultPainter,  // imageUrl이 null일 때
         modifier = modifier
+            .size(40.dp)
             .clip(RoundedCornerShape(10.dp))
             .background(
                 color = AppColors.secondary40,
