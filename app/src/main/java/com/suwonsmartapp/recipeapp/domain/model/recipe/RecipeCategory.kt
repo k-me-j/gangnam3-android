@@ -13,6 +13,8 @@ enum class RecipeCategory() {
     BREAKFAST,
     LUNCH,
     DINNER,
+    AMERICAN,
     SPANISH,
+    JAPANESE,
     UNKNOWN,
 }
