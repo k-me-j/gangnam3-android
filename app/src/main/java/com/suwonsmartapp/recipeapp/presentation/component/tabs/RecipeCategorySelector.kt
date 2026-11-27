@@ -6,12 +6,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -27,10 +27,11 @@ import com.suwonsmartapp.recipeapp.ui.AppColors
 import com.suwonsmartapp.recipeapp.ui.AppTextStyles
 
 @Composable
-fun RecipeCategorySelector(
-    labels: List<String>,
-    selectedIndex: Int,
-    onValueChange: (Int) -> Unit,
+fun <T> RecipeCategorySelector(
+    items: List<T>,
+    selectedItem: T,
+    onItemSelect: (T) -> Unit,
+    label: @Composable (T) -> String,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
@@ -41,8 +42,8 @@ fun RecipeCategorySelector(
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        itemsIndexed(labels) { index, label ->
-            val isSelected = index == selectedIndex
+        items(items) { item ->
+            val isSelected = item == selectedItem
             val backgroundColor = if (isSelected) AppColors.primary100 else AppColors.white
             val textColor = if (isSelected) AppColors.white else AppColors.primary80
             
@@ -53,7 +54,7 @@ fun RecipeCategorySelector(
                         color = backgroundColor,
                     )
                     .clickable {
-                        onValueChange(index)
+                        onItemSelect(item)
                     }
                     .padding(
                         horizontal = 20.dp,
@@ -62,7 +63,7 @@ fun RecipeCategorySelector(
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
-                    text = label,
+                    text = label(item),
                     color = textColor,
                     style = AppTextStyles.smallerTextBold.copy(
                         fontWeight = FontWeight.SemiBold,
@@ -77,14 +78,13 @@ fun RecipeCategorySelector(
 @Preview(showBackground = true)
 @Composable
 private fun RecipeCategorySelectorPreview() {
-    var selectedIndex by remember { mutableIntStateOf(0) }
-    val categories = FilterRecipeCategory.entries.map { stringResource(it.toStringResId()) }
+    val categories = FilterRecipeCategory.entries
+    var selectedCategory by remember { mutableStateOf(categories.first()) }
     
     RecipeCategorySelector(
-        labels = categories,
-        selectedIndex = selectedIndex,
-        onValueChange = { newIndex ->
-            selectedIndex = newIndex
-        },
+        items = categories,
+        selectedItem = selectedCategory,
+        onItemSelect = { selectedCategory = it },
+        label = { stringResource(it.toStringResId()) },
     )
 }
